@@ -12,14 +12,7 @@ const Logger = require('./logger');
 function EventClass() { }
 EventClass.prototype = Events;
 
-global.isLocalStorageAvailable = () => {
-  try { 
-    test = Storage; //this will fail if Storage doesn't exist
-    return global.localStorage instanceof Storage; 
-  } catch(e) { 
-    return false; 
-  }
-};
+global.hasLocalStorage = () => (typeof Storage !== 'undefined' && global.localStorage instanceof Storage);
 
 const SystemBus = new EventClass();
 if (typeof postMessage === 'function') {

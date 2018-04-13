@@ -144,7 +144,7 @@ class ClientAuthenticator extends Root {
    * @private
    */
   _isPersistedSessionsDisabled() {
-    return !global.isLocalStorageAvailable() || (this.persistenceFeatures && !this.persistenceFeatures.sessionToken);
+    return !global.hasLocalStorage() || (this.persistenceFeatures && !this.persistenceFeatures.sessionToken);
   }
 
   /**
@@ -722,7 +722,7 @@ class ClientAuthenticator extends Root {
 
 
   _clearStoredData(callback) {
-    if (global.isLocalStorageAvailable()) localStorage.removeItem(LOCALSTORAGE_KEYS.SESSIONDATA + this.appId);
+    if (global.hasLocalStorage()) localStorage.removeItem(LOCALSTORAGE_KEYS.SESSIONDATA + this.appId);
     if (this.dbManager) {
       this.dbManager.deleteTables(callback);
     } else if (callback) {
@@ -745,7 +745,8 @@ class ClientAuthenticator extends Root {
 
     if (this.sessionToken) {
       this.sessionToken = '';
-      if (global.isLocalStorageAvailable()) {
+      if (global.hasLocalStorage()) {
+
         localStorage.removeItem(LOCALSTORAGE_KEYS.SESSIONDATA + this.appId);
       }
     }
@@ -1093,7 +1094,7 @@ class ClientAuthenticator extends Root {
           logger.warn('SESSION EXPIRED!');
           this.isAuthenticated = false;
           this.isReady = false;
-          if (global.isLocalStorageAvailable()) localStorage.removeItem(LOCALSTORAGE_KEYS.SESSIONDATA + this.appId);
+          if (global.hasLocalStorage()) localStorage.removeItem(LOCALSTORAGE_KEYS.SESSIONDATA + this.appId);
           this.trigger('deauthenticated');
           this._authenticate(result.data.getNonce());
         }

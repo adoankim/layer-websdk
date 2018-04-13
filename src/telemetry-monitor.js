@@ -39,7 +39,7 @@ class TelemetryMonitor extends Root {
     this.tempState = {};
     this.storageKey = 'layer-telemetry-' + this.client.appId;
 
-    if (!global.isLocalStorageAvailable()) {
+    if (!global.hasLocalStorage()) {
       this.enabled = false;
     } else {
       try {
